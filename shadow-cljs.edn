@@ -1,0 +1,7 @@
+{:source-paths ["src" "test"]
+ :dependencies []
+ :builds {:test {:target :node-script
+                 :devtools {:enabled false}
+                 :main foo.test-main/go
+                 :output-to "target/compiled_test.js"
+                 :compiler-options {:output-feature-set :es8}}}}

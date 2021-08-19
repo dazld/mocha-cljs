@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test": "NODE_ENV=test mocha --exit --reporter spec 'target/*_test.js'",
+    "test:dev": "npm run test -- -w"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.3",
+    "shadow-cljs": "^2.15.5"
+  }
+}
