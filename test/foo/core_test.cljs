@@ -1,18 +1,18 @@
 (ns foo.core-test
   (:require [foo.core :as fc])
-  (:require-macros [mocha.support :refer [describe it it-only]]))
+  (:require-macros [mocha.support :refer [describe describe-only it it-only]]))
 
-(describe "nest"
+(describe "foo/func"
   (it "is true" (assert true))
   (it "wraps functions" (assert (= 2 (fc/func 1 1))))
-  (it "catch assertion failure" (assert (= 3 (fc/func 1 1)))))
+  (it "catch assertion failure" (assert (= 2 (fc/func 1 1)))))
 
 (describe "Promises are handled automatically"
   (it "happy path resolution"
       (js/Promise. (fn [res rej]
                      (= 2 (+ 1 1))
                      (res :ok))))
-  (it"should catch time outs without any interruption"
+  (it "should catch time outs without any interruption"
       (js/Promise. (fn [res rej]
                      ::nope)))
   (it "should catch rejections"
