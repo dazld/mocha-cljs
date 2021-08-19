@@ -9,10 +9,11 @@ An experiment in how mocha might play with ClojureScript.
 - open up `foo.core-test` in the test directory
 - write tests with `assert`
 
-## Implemented API
+## Mocha API calls available via cljs macros
 
 - `describe`
 - `describe.only`
+- `xit`
 - `it`
 - `it.only`
 

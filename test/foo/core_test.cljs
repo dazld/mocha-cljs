@@ -1,6 +1,6 @@
 (ns foo.core-test
   (:require [foo.core :as fc])
-  (:require-macros [mocha.support :refer [describe describe-only it it-only]]))
+  (:require-macros [mocha.support :refer [describe describe-only it it-only xit]]))
 
 (describe "foo/func"
   (it "is true" (assert true))
@@ -9,10 +9,16 @@
 
 (describe "Promises are handled automatically"
   (it "happy path resolution"
-      (js/Promise. (fn [res rej]
-                     (= 2 (+ 1 1))
-                     (res :ok))))
-  (it "should catch time outs without any interruption"
+      (-> (fc/thing+)
+          (.then (fn []
+                   (assert (= 2 2))))))
+  (it "happy path rejection"
+      (-> (fc/thing+)
+          (.then (fn []
+                   (+ 1 2 3)))
+          (.then (fn []
+                   (assert (= 1 2))))))
+  (xit "should catch time outs without any interruption"
       (js/Promise. (fn [res rej]
                      ::nope)))
   (it "should catch rejections"

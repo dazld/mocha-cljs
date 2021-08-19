@@ -21,6 +21,13 @@
        (fn []
          ~forms))))
 
+(defmacro xit
+  [title forms]
+  `(js/xit
+     ~title
+     (fn []
+       ~forms)))
+
 (defmacro it-only
   ([title forms]
    `(js/it.only
