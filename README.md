@@ -1,6 +1,6 @@
 ## Mocha <3 CLJS
 
-An experiment in how mocha might play with ClojureScript.
+An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://github.com/enzymejs/enzyme) and [reagent](http://reagent-project.github.io) might work together.
 
 ## Running
 
