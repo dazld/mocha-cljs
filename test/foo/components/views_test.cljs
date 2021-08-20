@@ -12,8 +12,25 @@
                                    before-each]]))
 
 (defn shallow
-  "Takes a reagent expression and mounts it into enzyme, returning the
-  mounted component."
+  "Takes a reagent expression and shallowly mounts it into enzyme, returning the
+  mounted component.
+
+  In theory this doesn't need JSDOM, but not sure how that would play with reagent.
+
+  https://enzymejs.github.io/enzyme/docs/api/shallow.html"
+  [component]
+  (let [el (r/as-element component)]
+    (enzyme/shallow el)))
+
+(defn mount
+  "Takes a reagent expression and fully mounts it into enzyme, returning the
+  mounted component.
+
+  Full DOM rendering is ideal for use cases where you have components that may
+  interact with DOM APIs or need to test components that are wrapped in higher
+  order components.
+
+  https://enzymejs.github.io/enzyme/docs/api/mount.html"
   [component]
   (let [el (r/as-element component)]
     (enzyme/mount el)))
@@ -34,12 +51,13 @@
                  "THING"))))
   (it "asserts against ratom updates"
     (let [mounted (shallow [fcv/article {:title "THING"}])
-          h1 (j/call mounted :find "h1")
           button (j/call mounted :find "button.two")]
       (assert (= (.text (j/call mounted :find "h1"))
                  "THING"))
       (j/call button :simulate "click")
       (-> (js/Promise. (fn [res]
+                         ;; This should really be invoked after a hook of some sort has been called
+                         ;; indicating that reagent has processed updates.
                          (js/setTimeout res 16)))
           (.then (fn []
                    (assert (= (.text (j/call mounted :find "h1"))
