@@ -1,10 +1,13 @@
 (ns mocha.support)
 
+(defmacro time-out [ms]
+  `(.timeout (~'js* "this") ~ms))
+
 (defmacro before-each
-  [body]
+  [& body]
   `(js/beforeEach
      (fn []
-       ~body)))
+       ~@body)))
 
 (defmacro describe
   ([title & body]
@@ -21,23 +24,23 @@
         ~@forms))))
 
 (defmacro it
-  ([title body]
+  ([title & body]
    `(js/it
       ~title
        (fn []
-         ~body))))
+         ~@body))))
 
 (defmacro xit
-  [title body]
+  [title & body]
   `(js/xit
      ~title
      (fn []
-       ~body)))
+       ~@body)))
 
 (defmacro it-only
-  ([title body]
+  ([title & body]
    `(js/it.only
       ~title
       (fn []
-        ~body))))
+        ~@body))))
 

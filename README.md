@@ -12,6 +12,7 @@ An experiment in how mocha might play with ClojureScript.
 ## Mocha API calls available via cljs macros
 
 - `beforeEach`
+- `this.timeout`
 - `describe`
 - `describe.only`
 - `xit`
@@ -37,6 +38,7 @@ An experiment in how mocha might play with ClojureScript.
                      (= 2 (+ 1 1))
                      (res :ok))))
   (it "should catch time outs without any interruption"
+      (time-out 100)
       (js/Promise. (fn [res rej]
                      ::nope)))
   (it "should catch rejections"
