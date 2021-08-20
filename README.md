@@ -50,6 +50,27 @@ An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://git
                      (res "ok")))))
 ```
 
+### Example enzyme test
+```clj
+
+(defn shallow
+  "Takes a reagent expression and mounts it into enzyme, returning the
+  mounted component."
+  [component]
+  (let [el (r/as-element component)]
+    (enzyme/shallow el)))
+
+(describe "Reagent Component"
+  (it "asserts click behaviour"
+    (let [!count (atom 0)
+          mounted (shallow [fcv/article {:on-click #(swap! !count inc)
+                                         :title "Title"}])
+          button (j/call mounted :find "button")
+          _ (j/call button :simulate "click")
+          _ (j/call button :simulate "click")]
+      (assert (= @!count 2)))))
+```
+
 ## Example output
 
 ### `spec` reporter
