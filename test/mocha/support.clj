@@ -1,11 +1,17 @@
 (ns mocha.support)
 
+(defmacro before-each
+  [body]
+  `(js/beforeEach
+     (fn []
+       ~body)))
+
 (defmacro describe
-  ([title & forms]
+  ([title & body]
    `(js/describe
       ~title
       (fn []
-        ~@forms))))
+        ~@body))))
 
 (defmacro describe-only
   ([title & forms]
@@ -15,23 +21,23 @@
         ~@forms))))
 
 (defmacro it
-  ([title forms]
+  ([title body]
    `(js/it
       ~title
        (fn []
-         ~forms))))
+         ~body))))
 
 (defmacro xit
-  [title forms]
+  [title body]
   `(js/xit
      ~title
      (fn []
-       ~forms)))
+       ~body)))
 
 (defmacro it-only
-  ([title forms]
+  ([title body]
    `(js/it.only
       ~title
       (fn []
-        ~forms))))
+        ~body))))
 

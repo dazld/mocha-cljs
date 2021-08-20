@@ -1,6 +1,6 @@
 (ns foo.core-test
-  (:require [foo.core :as fc])
-  (:require-macros [mocha.support :refer [describe describe-only it it-only xit]]))
+  (:require [foo.core :as fc]
+            [mocha.support :refer [before-each describe describe-only it it-only xit]]))
 
 (describe "foo/func"
   (it "is true" (assert true))
