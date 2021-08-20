@@ -1,6 +1,6 @@
 ## Mocha <3 CLJS
 
-An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://github.com/enzymejs/enzyme) and [reagent](http://reagent-project.github.io) might work together.
+An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://github.com/enzymejs/enzyme) and [reagent](http://reagent-project.github.io) might work together with clojurescript and shadow-cljs.
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/201036/130189484-b3748bc8-b913-4a3d-8efc-aeb933ad29ab.png">
 
