@@ -11,6 +11,7 @@ An experiment in how mocha might play with ClojureScript.
 
 ## Mocha API calls available via cljs macros
 
+- `beforeEach`
 - `describe`
 - `describe.only`
 - `xit`
@@ -20,9 +21,15 @@ An experiment in how mocha might play with ClojureScript.
 ### Example tests
 ```clj
 (describe "foo/func"
-  (it "is true" (assert true))
-  (it "wraps functions" (assert (= 2 (fc/func 1 1))))
-  (it "catches assertion failure" (assert (= 2 (fc/func 1 1)))))
+  (let [!count (atom 0)]
+    (before-each (swap! !count inc))
+    (it "is true" (assert true))
+    (xit "has a pending test" (assert false))
+    (it "wraps functions" (assert (= 2 (fc/func 1 1))))
+    (it "catch assertion failure"
+        (let [c @!count]
+          (assert (pos? c))
+          (assert (= 2 (fc/func 1 1)))))))
 
 (describe "Promises are handled automatically"
   (it "happy path resolution"
