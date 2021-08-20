@@ -8,7 +8,8 @@
 
 (enzyme/configure #js{:adapter (Adapter.)})
 
-(let [dom (jsdom/JSDOM. "<!doctype html><html><body></body></html>")]
+(let [dom (jsdom/JSDOM. "<!doctype html><html><body></body></html>"
+                        #js {:pretendToBeVisual true})]
   (j/assoc! js/global :window (.-window dom))
   (j/assoc! js/global :document (j/get-in dom [:window :document])))
 
