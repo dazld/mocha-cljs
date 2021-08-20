@@ -7,6 +7,8 @@ An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://git
 ## Running
 
 - install [entr](http://eradman.com/entrproject/), will be `brew install entr` or the equivalent for most of you.
+- Ensure you have node > 12 installed.
+- run `npm ci`
 - run `make test`
 - open up `foo.core-test` in the test directory
 - write tests with `assert`
