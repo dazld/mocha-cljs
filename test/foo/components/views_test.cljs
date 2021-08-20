@@ -45,13 +45,16 @@
           _ (j/call button :simulate "click")]
       (assert (= @!count 2))))
   (it "contains the title"
-    (let [mounted (shallow [fcv/article {:title "THING"}])
+    (let [title (str (random-uuid))
+          mounted (shallow [fcv/article {:title title}])
           h1 (j/call mounted :find "h1")]
+      (assert (.exists mounted "h1"))
       (assert (= (.text h1)
-                 "THING"))))
+                 title))))
   (it "asserts against ratom updates"
     (let [mounted (shallow [fcv/article {:title "THING"}])
           button (j/call mounted :find "button.two")]
+
       (assert (= (.text (j/call mounted :find "h1"))
                  "THING"))
       (j/call button :simulate "click")
