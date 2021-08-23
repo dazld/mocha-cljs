@@ -6,7 +6,7 @@ build-test:
 
 mocha-watch:
 	@mkdir -p target
-	@rm target/compiled_test.js
+	@rm -f target/compiled_test.js
 	@touch target/compiled_test.js
 	@ls target/compiled_test.js | entr npm run test
 
