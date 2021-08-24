@@ -1,6 +1,6 @@
 ## Mocha <3 CLJS
 
-An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://github.com/enzymejs/enzyme) and [reagent](http://reagent-project.github.io) might work together with clojurescript and shadow-cljs.
+An experiment in how headless [mocha](https://mochajs.org), [testing-library](https://testing-library.com) and [reagent](http://reagent-project.github.io) might work together with clojurescript and shadow-cljs.
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/201036/130189484-b3748bc8-b913-4a3d-8efc-aeb933ad29ab.png">
 
@@ -54,25 +54,37 @@ An experiment in how headless [mocha](https://mochajs.org), [enzyme](https://git
                      (res "ok")))))
 ```
 
-### Example enzyme test
+### Example rtl (react testing library) test
 ```clj
+(ns foo
+  (:require ... ["@testing-library/react" :refer (fireEvent render)] ))
 
-(defn shallow
-  "Takes a reagent expression and mounts it into enzyme, returning the
-  mounted component."
+(defn click [el]
+  (j/call fireEvent :click el "click"))
+
+(defn by-test-id [^js el test-id]
+  (.getByTestId el test-id))
+
+(defn render-el
+  "Takes a reagent expression and mounts it into jsdom, returning the mounted component."
   [component]
   (let [el (r/as-element component)]
-    (enzyme/shallow el)))
+    (render el)))
 
-(describe "Reagent Component"
+(describe-only "[foo.components.views/article ...]"
   (it "asserts click behaviour"
     (let [!count (atom 0)
-          mounted (shallow [fcv/article {:on-click #(swap! !count inc)
-                                         :title "Title"}])
-          button (j/call mounted :find "button")
-          _ (j/call button :simulate "click")
-          _ (j/call button :simulate "click")]
-      (assert (= @!count 2)))))
+          mounted (render-el [fcv/article {:on-click #(swap! !count inc)
+                                           :title "Title"}])
+          button (by-test-id mounted "a1")]
+      (click button)
+      (click button)
+      (assert (= @!count 2))))
+  (it "contains the title"
+    (let [title (str (random-uuid))
+          mounted (render-el [fcv/article {:title title}])
+          h1 (by-test-id mounted "maintitle")]
+      (assert h1 "Title Exists"))))
 ```
 
 ## Example output
