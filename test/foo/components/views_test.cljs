@@ -23,7 +23,7 @@
   (let [el (r/as-element component)]
     (render el)))
 
-(describe-only "[foo.components.views/article ...]"
+(describe "[foo.components.views/article ...]"
   (it "asserts click behaviour"
     (let [!count (atom 0)
           mounted (render-el [fcv/article {:on-click #(swap! !count inc)
@@ -36,23 +36,15 @@
     (let [title (str (random-uuid))
           mounted (render-el [fcv/article {:title title}])
           h1 (by-test-id mounted "maintitle")]
-      (assert h1 "Title Exists"))))
+      (assert h1 "Title Exists")))
+  (it "asserts against ratom updates"
+    (let [mounted (render-el [fcv/article {:title "THING"}])
+          button (by-test-id mounted "a2")]
+      (assert (.getByText mounted "THING"))
+      (click button)
+      ;; Returns a promise to a query, or throws failing the test
+      (.findByText mounted "clicked"))))
 
-
-(xit "asserts against ratom updates"
-  (let [mounted (render-el [fcv/article {:title "THING"}])
-        button (j/call mounted :find "button.two")]
-
-    (assert (= (.text (j/call mounted :find "h1"))
-               "THING"))
-    (j/call button :simulate "click")
-    (-> (js/Promise. (fn [res]
-                       ;; This should really be invoked after a hook of some sort has been called
-                       ;; indicating that reagent has processed updates.
-                       (js/setTimeout res 16)))
-        (.then (fn []
-                 (assert (= (.text (j/call mounted :find "h1"))
-                            "clicked")))))))
 
 
 
