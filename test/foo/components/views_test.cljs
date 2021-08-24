@@ -9,7 +9,8 @@
                                    time-out
                                    it-only
                                    xit
-                                   before-each]]))
+                                   before-each]]
+            [promesa.core :as p]))
 
 (defn click [el]
   (j/call fireEvent :click el "click"))
@@ -22,6 +23,23 @@
   [component]
   (let [el (r/as-element component)]
     (render el)))
+
+(describe "using promesa"
+  (it "changes state"
+    (time-out 10000)
+    (p/let [!count (r/atom 0)
+            ^js el (render-el [fcv/article {:on-click #(swap! !count inc)}])
+            a1 (.findByTestId el "a1")
+            a2 (.findByTestId el "a2")
+            a3 (.findByTestId el "a3")]
+      (click a1)
+      (assert (= 1 @!count))
+      (click a2)
+      (-> (js/Promise. (fn [res rej]
+                         (js/setTimeout res 2000)))
+          (.then #(.findByText el "clicked")))
+      (click a3)
+      (.findByText el "final"))))
 
 (describe "[foo.components.views/article ...]"
   (it "asserts click behaviour"
