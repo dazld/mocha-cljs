@@ -55,6 +55,7 @@
           mounted (render-el [fcv/article {:title title}])
           h1 (by-test-id mounted "maintitle")]
       (assert h1 "Title Exists")))
+
   (it "asserts against ratom updates"
     (let [mounted (render-el [fcv/article {:title "THING"}])
           button (by-test-id mounted "a2")]
@@ -62,7 +63,3 @@
       (click button)
       ;; Returns a promise to a query, or throws failing the test
       (.findByText mounted "clicked"))))
-
-
-
-

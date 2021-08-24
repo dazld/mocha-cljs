@@ -1,12 +1,14 @@
 {
   "scripts": {
     "test": "NODE_ENV=test mocha --exit --reporter spec 'target/*_test.js'",
+    "coverage": "nyc --reporter=lcov --reporter=text --reporter=cobertura --reporter=json-summary --all npm test",
     "test:dev": "npm run test -- -w"
   },
   "devDependencies": {
     "@testing-library/react": "^12.0.0",
     "jsdom": "^17.0.0",
     "mocha": "^9.0.3",
+    "nyc": "^15.1.0",
     "shadow-cljs": "^2.15.5"
   },
   "dependencies": {
