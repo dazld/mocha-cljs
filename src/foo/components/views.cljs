@@ -12,5 +12,11 @@
      [:button.two {:data-testid "a2"
                    :on-click (fn []
                                (swap! !state assoc :title "clicked"))}
-      "Other"]]))
+      "Other"]
+     [:button.two {:data-testid "a3"
+                   :on-click (fn []
+                               (swap! !state assoc :title "final")
+                               #_(js/setTimeout #(swap! !state assoc :title "final")
+                                                800))}
+      "last"]]))
 
